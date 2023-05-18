@@ -68,11 +68,11 @@ public final class TokenExpander {
 
         try {
             var theClass = value.getClass();
-            var method = theClass.getMethod(property, null);
+            var method = getMethod(theClass, property);
             if (method != null) {
-                value = method.invoke(value, null);
+                value = method.invoke(value);
             } else {
-                var field = theClass.getField(property);
+                var field = getField(theClass, property);
                 if (field != null) {
                     value = field.get(value);
                 }
@@ -103,6 +103,22 @@ public final class TokenExpander {
             case "toupper":     return value.toUpperCase();
             case "tolower":     return value.toLowerCase();
             default:            throw new IllegalArgumentException("invalid action: " + action);
+        }
+    }
+
+    private static Method getMethod(Class<?> theClass, String method) {
+        try {
+            return theClass.getMethod(method);
+        } catch(NoSuchMethodException e) {
+            return null;
+        }
+    }
+
+    private static Field getField(Class<?> theClass, String field) {
+        try {
+            return theClass.getField(field);
+        } catch(NoSuchFieldException e) {
+            return null;
         }
     }
 }

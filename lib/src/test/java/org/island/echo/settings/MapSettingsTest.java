@@ -3,12 +3,12 @@ package org.island.echo.settings;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 public class MapSettingsTest {
     @Test
     public void initialization_NullMap() {
-        assertThrows(Exception.class, () -> new MapSettings(null));
+        assertThatException().isThrownBy(() -> new MapSettings(null));
     }
 
     @Test
@@ -17,8 +17,7 @@ public class MapSettingsTest {
         var settings = new MapSettings(map);
 
         var name = settings.getSetting("Name");
-        assertTrue(name.isPresent());
-        assertEquals(name.get(), "Jack");
+        assertThat(name).hasValue("Jack");
     }
 
     @Test
@@ -27,8 +26,7 @@ public class MapSettingsTest {
         var settings = new MapSettings(map);
 
         var name = settings.getSetting("name");
-        assertTrue(name.isPresent());
-        assertEquals(name.get(), "Jack");
+        assertThat(name).hasValue("Jack");
     }
 
     @Test
@@ -37,6 +35,6 @@ public class MapSettingsTest {
         var settings = new MapSettings(map);
 
         var name = settings.getSetting("Location");
-        assertFalse(name.isPresent());
+        assertThat(name).isEmpty();
     }
 }

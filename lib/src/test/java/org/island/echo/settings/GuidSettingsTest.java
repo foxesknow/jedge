@@ -1,37 +1,36 @@
 package org.island.echo.settings;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 public class GuidSettingsTest {
     @Test
     public void unknownSetting() {
         var setting = new GuidSettings();
         var value = setting.getSetting("foo");
-        assertFalse(value.isPresent());
+        assertThat(value.isPresent()).isFalse();
     }
 
     @Test
     public void appGuidStaysTheSame() {
         var setting = new GuidSettings();
         var value = setting.getSetting("app");
-        assertTrue(value.isPresent());
-        assertNotNull(value.get());
+        assertThat(value).isNotEmpty();
 
         var secondTime = setting.getSetting("app");
-        assertTrue(secondTime.isPresent());
-        assertEquals(value.get(), secondTime.get());
+        assertThat(secondTime).isNotEmpty();
+        assertThat(value).hasValue(secondTime.get());
     }
 
     @Test
-    public void newGuidStaysChangesd() {
+    public void newGuidStaysTheSame() {
         var setting = new GuidSettings();
         var value = setting.getSetting("new");
-        assertTrue(value.isPresent());
-        assertNotNull(value.get());
+        assertThat(value).isNotEmpty();
+        assertThat(value.get()).isNotNull();
 
         var secondTime = setting.getSetting("new");
-        assertTrue(secondTime.isPresent());
-        assertNotEquals(value.get(), secondTime.get());
+        assertThat(secondTime).isNotEmpty();
+        assertThat(value.get()).isNotEqualTo(secondTime.get());
     }
 }

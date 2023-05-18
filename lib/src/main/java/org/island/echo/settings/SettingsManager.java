@@ -8,7 +8,14 @@ public class SettingsManager {
     private static final Object s_SyncRoot = new Object();
     private static final Map<String, Settings> s_Settings = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
+    public static final char NAMESPACE_SEPARATOR = ':';
+
     private SettingsManager(){}
+
+    static {
+        register("guid", new GuidSettings());
+        register("literal", new LiteralSettings());
+    }
 
     public static boolean isRegistered(String namespace) {
         Objects.requireNonNull(namespace);
@@ -42,8 +49,10 @@ public class SettingsManager {
         }
     }
 
-    static Pair<String, String> crackQualifiedName(String qualifiedName) {
-        var pivot = qualifiedName.indexOf(':');
+    public static Pair<String, String> crackQualifiedName(String qualifiedName) {
+        Objects.requireNonNull(qualifiedName);
+
+        var pivot = qualifiedName.indexOf(NAMESPACE_SEPARATOR);
         if (pivot == -1) throw new IllegalArgumentException("invalid name");
 
         var namespace = qualifiedName.substring(0, pivot);

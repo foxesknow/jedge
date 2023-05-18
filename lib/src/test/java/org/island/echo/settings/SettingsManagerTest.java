@@ -1,25 +1,37 @@
 package org.island.echo.settings;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 public class SettingsManagerTest {
     @Test
     public void crackQualifiedName() {
         var pair = SettingsManager.crackQualifiedName("proc:id");
-        assertNotNull(pair);
-        assertEquals(pair.item1(), "proc");
-        assertEquals(pair.item2(), "id");
+        assertThat(pair).isNotNull();
+        assertThat(pair.item1()).isEqualTo("proc");
+        assertThat(pair.item2()).isEqualTo("id");
     }
 
     @Test
     public void crackQualifiedName_NoDelimiter() {
-        assertThrows(Exception.class, () -> SettingsManager.crackQualifiedName("proc-id"));
+        assertThatException().isThrownBy(() -> SettingsManager.crackQualifiedName("proc-id"));
     }
 
     @Test
     public void crackQualifiedName_NullQualifiedname() {
-        assertThrows(Exception.class, () -> SettingsManager.crackQualifiedName(null));
+        assertThatException().isThrownBy(() -> SettingsManager.crackQualifiedName(null));
+    }
+
+    @Test
+    public void isRegistered() {
+        assertThat(SettingsManager.isRegistered("guid")).isTrue();
+        assertThat(SettingsManager.isRegistered("foobar")).isFalse();
+    }
+
+    @Test
+    public void getSettings() {
+        assertThat(SettingsManager.getSettings("guid")).isNotNull();
+        assertThat(SettingsManager.getSettings("foobar")).isNull();
     }
 }
 

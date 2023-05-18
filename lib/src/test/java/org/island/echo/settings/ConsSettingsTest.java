@@ -1,22 +1,21 @@
 package org.island.echo.settings;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 public class ConsSettingsTest {
     @Test
     public void headIsNull() {
         var other = new GuidSettings();
-        assertThrows(NullPointerException.class, () -> new ConsSettings(null, other));
+        assertThatException().isThrownBy(() -> new ConsSettings(null, other));
     }
 
     @Test
     public void tailIsNull() {
         var other = new GuidSettings();
-        assertThrows(NullPointerException.class, () -> new ConsSettings(other, null));
+        assertThatException().isThrownBy(() -> new ConsSettings(other, null));
     }
 
     @Test
@@ -26,11 +25,9 @@ public class ConsSettingsTest {
 
         var settings = new ConsSettings(head, tail);
         var name = settings.getSetting("Name");
-        assertTrue(name.isPresent());
-        assertEquals(name.get(), "Jack");
+        assertThat(name).hasValue("Jack");
 
         var age = settings.getSetting("age");
-        assertTrue(age.isPresent());
-        assertEquals(age.get(), 42);
+        assertThat(age).hasValue(42);
     }
 }

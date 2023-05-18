@@ -1,4 +1,4 @@
-package settings;
+package org.island.echo.settings;
 
 import java.util.*;
 
@@ -14,11 +14,11 @@ public class ConsSettings implements Settings {
         m_Tail = tail;
     }
 
-
     @Override
     public Optional<Object> getSetting(String name) {
         var headValue = m_Head.getSetting(name);
-        if(headValue.isPresent()) return headValue;
+        if (headValue.isPresent())
+            return headValue;
 
         return m_Tail.getSetting(name);
     }

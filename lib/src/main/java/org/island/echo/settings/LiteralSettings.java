@@ -1,4 +1,4 @@
-package settings;
+package org.island.echo.settings;
 
 import java.util.*;
 

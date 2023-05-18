@@ -2,7 +2,7 @@ package org.island.echo.settings;
 
 import java.util.*;
 
-public class ConsSettings implements Settings {
+public final class ConsSettings implements Settings {
     private final Settings m_Head;
     private final Settings m_Tail;
 

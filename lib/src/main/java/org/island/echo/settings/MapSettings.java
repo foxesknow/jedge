@@ -2,7 +2,7 @@ package org.island.echo.settings;
 
 import java.util.*;
 
-public class MapSettings implements Settings {
+public final class MapSettings implements Settings {
     private final Map<String, Object> m_Settings;
 
     public MapSettings(Map<String, ?> settings) {
